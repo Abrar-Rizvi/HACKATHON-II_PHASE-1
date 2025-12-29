@@ -1,55 +1,177 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Hackathon II - Phase I: Todo Console Application Constitution
+
+<!--
+Sync Impact Report:
+Version: 1.0.0 (Initial constitution)
+Changes: Initial creation based on project requirements
+Modified Principles: N/A (initial version)
+Added Sections: All sections newly created
+Removed Sections: None
+Templates Status:
+  ✅ plan-template.md - Reviewed, no updates required (template generic enough)
+  ✅ spec-template.md - Reviewed, no updates required (template generic enough)
+  ✅ tasks-template.md - Reviewed, no updates required (template generic enough)
+Follow-up TODOs: None
+-->
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Spec-Driven Development (NON-NEGOTIABLE)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+All features MUST originate from written specifications. No code implementation may begin without:
+- A complete feature specification in `specs/` directory
+- Clear user scenarios with acceptance criteria
+- Defined functional requirements
+- Success criteria documented
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: Ensures intentional design, prevents scope creep, and maintains traceability from requirements to implementation.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Simplicity and Clarity
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Code MUST be beginner-friendly and readable:
+- Clear, descriptive variable and function names following PEP 8 conventions
+- Small, focused functions with single responsibility
+- Minimal complexity - prefer straightforward solutions over clever optimizations
+- Self-documenting code structure
 
-### [PRINCIPLE_6_NAME]
+**Rationale**: Hackathon context requires rapid understanding and modification. Code clarity enables faster iteration and collaboration.
 
+### III. Clean Code Practices
 
-[PRINCIPLE__DESCRIPTION]
+All code MUST follow clean code principles:
+- PEP 8 style guide compliance (enforced via linting)
+- Functions limited to one clear responsibility
+- No code duplication - extract reusable logic
+- Modular design enabling independent testing of components
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: Maintainability is critical even in time-constrained contexts. Clean code reduces debugging time and enables confident changes.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. In-Memory Data Handling Only
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Data storage MUST use in-memory structures exclusively:
+- Tasks stored in Python lists or dictionaries
+- No file I/O for persistence
+- No database connections
+- State exists only during program execution
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: Phase I scope limitation reduces complexity and focuses implementation on core business logic and user interaction patterns.
+
+### V. Deterministic Console Behavior
+
+Console output MUST be predictable and user-friendly:
+- Consistent formatting for all output types
+- Clear status indicators (complete/incomplete markers)
+- User-friendly error messages
+- Task IDs managed consistently and uniquely within session
+
+**Rationale**: Predictable UX enables reliable testing and demo scenarios. Clear console output is the sole user interface in this application.
+
+### VI. Direct Requirement Mapping
+
+Every implemented feature MUST trace directly to Phase I requirements:
+- Add tasks with title and description
+- List all tasks with status indicators
+- Update task title and description
+- Delete tasks by task ID
+- Mark tasks as complete or incomplete
+
+**Rationale**: Scope discipline prevents feature bloat and ensures delivery focus on defined objectives.
+
+## Technology Stack Requirements
+
+**Language**: Python 3.13 or higher (MANDATORY)
+
+**Package Management**: UV (MANDATORY)
+- All dependencies installed and managed via UV
+- `pyproject.toml` and `uv.lock` must be maintained
+
+**Development Tools**: Claude Code with Spec-Kit Plus (MANDATORY)
+- All specifications created using Spec-Kit Plus templates
+- Development workflow follows Claude Code best practices
+- Prompt History Records (PHRs) created for significant development sessions
+
+**Application Type**: Command-line interface (CLI) only
+- No web frameworks
+- No GUI libraries
+- Console-based interaction exclusively
+
+**Storage Constraints**: In-memory only
+- No external dependencies for persistence
+- Python built-in data structures (list, dict) only
+
+**External Frameworks**: None beyond approved stack
+- Standard library usage permitted
+- No third-party frameworks for core functionality
+
+## Development Workflow
+
+### Specification-First Process
+
+1. **Feature Definition**: Create specification document in `specs-history/` using spec template
+2. **Planning**: Generate implementation plan using plan template
+3. **Task Breakdown**: Create task list using tasks template
+4. **Implementation**: Code only after specs/plan/tasks complete
+5. **Verification**: Validate against acceptance criteria in specification
+
+### Code Quality Gates
+
+All code MUST pass before commit:
+- PEP 8 compliance verification
+- Function length check (prefer < 20 lines)
+- Single responsibility validation
+- No duplicated logic
+
+### Project Structure Standards
+
+```
+/src                    # All Python source code
+specs-history/          # All specification files
+  ├── spec.md
+  ├── plan.md
+  └── tasks.md
+README.md               # Setup and run instructions
+CLAUDE.md               # Claude Code usage documentation
+CONSTITUTION.md         # This file
+.specify/               # Spec-Kit Plus templates and memory
+history/                # Prompt history records and ADRs
+```
+
+**Enforcement**:
+- No code outside `/src` directory
+- All specs in `specs-history/` directory
+- Documentation files at repository root
+
+### Task ID Management
+
+Task IDs MUST be:
+- Unique within the application session
+- Consistently typed (integer recommended)
+- Sequential or deterministically generated
+- Preserved through all operations until deletion
+
+**Enforcement**: Manual code review to verify ID uniqueness logic.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other project practices and guidelines.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Amendment Process**:
+1. Proposed amendment documented with rationale
+2. Impact assessment on existing code and specs
+3. Version increment per semantic versioning rules
+4. Migration plan for affected artifacts
+5. Update of all dependent templates
+
+**Compliance Verification**:
+- All pull requests MUST reference constitution compliance
+- Spec reviews verify adherence to spec-driven principle
+- Code reviews enforce clean code and simplicity principles
+
+**Complexity Justification**:
+- Any deviation from principles MUST be documented
+- Alternatives considered and rejected MUST be stated
+- Approval required before implementation
+
+**Runtime Guidance**: Refer to `CLAUDE.md` for development workflow guidance and Claude Code-specific practices.
+
+**Version**: 1.0.0 | **Ratified**: 2025-12-30 | **Last Amended**: 2025-12-30
